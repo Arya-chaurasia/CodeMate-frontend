@@ -30,9 +30,9 @@ const Connections = () => {
         <div className=' text-center my-10'>
             <h1 className='text-bold text-3xl'>Connections</h1>
             {connections.map((connection) => {
-                 const { firstName, lastName, about, photoUrl, age, gender } = connection
+                 const { _id, firstName, lastName, about, photoUrl, age, gender } = connection
                 return (
-                    <div className='flex m-4 p-4 rounded-lg bg-base-300 w-1/2 mx-auto'>
+                    <div key={_id} className='flex m-4 p-4 rounded-lg bg-base-300 w-1/2 mx-auto'>
                     <div> 
                     <img alt="photo" className="w-20 h-20 rounded-full"  src={photoUrl}/>
                     </div>
