@@ -25,26 +25,28 @@ const Connections = () => {
 
     if (!connections) return;
 
-    if (connections.length === 0) return <h1>No Connections Found</h1>
+    if (connections.length === 0) return <h1 className="flex justify-center my-10">No Connections Found</h1>
     return (
-        <div className=' text-center my-10'>
-            <h1 className='text-bold text-3xl'>Connections</h1>
+        <div className=' text-center my-10 px-4'>
+            <h1 className="font-extrabold text-4xl mb-8 text-gray-700">Connections</h1>
+             <div className="flex flex-col items-center gap-6">
             {connections.map((connection) => {
                  const { _id, firstName, lastName, about, photoUrl, age, gender } = connection
                 return (
-                    <div key={_id} className='flex m-4 p-4 rounded-lg bg-base-300 w-1/2 mx-auto'>
+                    <div key={_id} className="flex flex-col md:flex-row items-center md:items-start gap-6 bg-base-300 p-6 rounded-2xl shadow-md w-full max-w-2xl mx-auto hover:shadow-xl transition-shadow">
                     <div> 
-                    <img alt="photo" className="w-20 h-20 rounded-full"  src={photoUrl}/>
+                    <img alt="photo" className="w-24 h-24 rounded-full object-cover border-2 border-primary/50 shadow-sm" src={photoUrl}/>
                     </div>
-                        <div className='text-left mx-4'>
-                         <h2 className='font-bold'>{firstName+ " " + lastName}</h2>
-                         {age && gender && <p>{age + ", " + gender}</p>}
-                        <p>{about}</p></div>
-                       
+                        <div className='text-left flex-1'>
+                        <h2 className="text-2xl font-semibold text-gray-300">{firstName + " " + lastName}</h2>
+                         {age && gender && <p className="text-sm text-gray-300 mb-2 capitalize">{age + ", " + gender}</p>}
+                        <p className="text-gray-300 line-clamp-3">{about}</p>
+                        </div>
                     </div>
                 )
             }
             )}
+        </div>
         </div>
     )
 }

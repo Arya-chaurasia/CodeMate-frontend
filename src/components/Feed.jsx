@@ -3,7 +3,7 @@ import { BASE_URL } from '../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFeed } from '../utils/feedSlice';
 import { useEffect } from 'react';
-import UserCard from './userCard';
+import UserCard from './UserCard';
 
 const Feed = () => {
   const feed = useSelector((store) => store.feed)
@@ -23,9 +23,19 @@ const Feed = () => {
   useEffect(() => {
     getFeed();
   }, [])
+
+  if(feed?.length === 0 )
+      return (
+    <div className="flex justify-center my-16">
+      <h1 className="text-xl font-semibold text-gray-500">
+        No New Users Found
+      </h1>
+    </div>
+  );
+
   return (
     feed && (
-    <div className='flex justify-center my-10'>
+    <div className='flex justify-center my-8'>
       <UserCard user={feed[0]} />
     </div>
     )
