@@ -57,6 +57,9 @@ const Navbar = () => {
               <li>
                 <Link to="/requests" className="hover:bg-primary/20 transition">Requests</Link>
               </li>
+               <li>
+                <Link to="/premium" className="hover:bg-primary/20 transition">Premium</Link>
+              </li>
               <li>
                 <a onClick={handleLogout} className="hover:bg-error/20 transition cursor-pointer">Logout</a>
               </li>
