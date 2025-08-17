@@ -14,6 +14,10 @@ import Premium from './components/Premium'
 import Chat from './components/Chat'
 import ChatsList from './components/ChatsList'
 
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
+
 function App() {
 
   return (
