@@ -1,13 +1,11 @@
 import React from 'react'
 
-const Footer = () => {
+export default function SimpleFooter(){
   return (
-      <footer className="footer bg-base-200 text-neutral-content p-4 fixed bottom-0">
-       <div className="max-w-screen-xl mx-auto flex justify-center px-4 text-sm font-semibold">
-        <p>&copy; 2025 DevTinder. All rights reserved.</p>
+    <footer className="mt-12 border-t border-gray-200 dark:border-slate-800 bg-transparent fixed bottom-0">
+      <div className="max-w-screen-xl mx-auto px-4 py-6 text-center text-sm text-gray-600 dark:text-gray-400">
+        © {new Date().getFullYear()} CodeMate — Built with ❤️
       </div>
     </footer>
   )
 }
-
-export default Footer

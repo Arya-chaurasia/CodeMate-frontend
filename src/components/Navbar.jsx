@@ -1,74 +1,71 @@
-import axios from "axios";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { BASE_URL } from "../utils/constants";
-import { removeUser } from "../utils/userSlice";
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios'
+import { BASE_URL } from '../utils/constants'
+import { removeUser } from '../utils/userSlice'
 
-const Navbar = () => {
-  const user = useSelector((store) => store.user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+export default function NewNavbar(){
+  const user = useSelector(s => s.user)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const handleLogout = async () => {
-    try {
-      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
-      dispatch(removeUser());
-      navigate("/login");
-    } catch (err) {
-      console.error(err);
+  const handleLogout = async ()=>{
+    try{
+      await axios.post(BASE_URL + '/logout', {}, { withCredentials: true })
+      dispatch(removeUser())
+      navigate('/login')
+    }catch(e){
+      console.error(e)
     }
-  };
+  }
 
   return (
-    <div className="navbar bg-base-300/90 shadow-md h-20 px-6 backdrop-blur-sm">
-      <div className="flex-1 max-w-screen-xl mx-auto">
-        <Link to="/" className="btn btn-ghost text-2xl font-bold tracking-wide transition hover:text-primary">
-          Dev Tinder
-        </Link>
-      </div>
-      {user && (
-        <div className="flex items-center gap-4 px-2">
-          <p className="text-sm md:text-base font-medium text-gray-700">
-            Welcome, <span className="text-primary">{user.firstName}</span>
-          </p>
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-             className="btn btn-ghost btn-circle avatar border-2 border-primary/50"
-            >
-              <div className="w-12 rounded-full overflow-hidden">
-                <img alt="Profile" src={user.photoUrl} />
-              </div>
+    <header className="w-full bg-white/60 dark:bg-slate-900/60 backdrop-blur sticky top-0 z-40 shadow-sm">
+      <div className="max-w-screen-xl mx-auto px-4 md:px-6 h-20 flex items-center">
+        <div className="flex items-center gap-4 flex-1">
+          <Link to="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-teal-400 flex items-center justify-center text-white font-bold">CM</div>
+            <div className="hidden sm:block">
+              <div className="text-lg font-semibold">CodeMate</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Connect • Collaborate • Create</div>
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg bg-base-100 rounded-box w-56"
-            >
-              <li>
-                <Link to="/profile"  className="justify-between hover:bg-primary/20 transition">
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <Link to="/connections"  className="hover:bg-primary/20 transition">Connections</Link>
-              </li>
-              <li>
-                <Link to="/requests" className="hover:bg-primary/20 transition">Requests</Link>
-              </li>
-               <li>
-                <Link to="/premium" className="hover:bg-primary/20 transition">Premium</Link>
-              </li>
-              <li>
-                <a onClick={handleLogout} className="hover:bg-error/20 transition cursor-pointer">Logout</a>
-              </li>
-            </ul>
+          </Link>
+
+          <div className="hidden md:flex items-center bg-gray-100 dark:bg-slate-800 rounded-full px-3 py-1 gap-2 w-[38rem]">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M12.9 14.32a8 8 0 111.414-1.414l4.387 4.386-1.414 1.415-4.387-4.387zM8 14a6 6 0 100-12 6 6 0 000 12z" clipRule="evenodd" /></svg>
+            <input aria-label="Search developers" className="bg-transparent outline-none w-full text-sm" placeholder="Search skills, companies, locations... " />
           </div>
         </div>
-      )}
-    </div>
-  );
-};
 
-export default Navbar;
+        <nav className="flex items-center gap-6">
+          {/* <Link to="/premium" className="hidden sm:inline-block btn btn-sm btn-ghost">Premium</Link> */}
+          {!user ? (
+            <Link to="/login" className="btn btn-sm">Login</Link>
+          ) : (
+            <div className="flex items-center gap-8">
+              <Link to="/connections" className="hidden md:inline text-md font-bold text-gray-600 dark:text-gray-300">Connections</Link>
+
+              <div className="dropdown dropdown-end">
+                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                  <div className="w-10 rounded-full overflow-hidden border-2 border-indigo-300/80">
+                    <img src={user.photoUrl || '/default-avatar.png'} alt="avatar" />
+                  </div>
+                </label>
+                <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                  <li><Link to="/profile">Profile</Link></li>
+                  <li><Link to="/requests">Requests</Link></li>
+                  <li>
+                <Link to="/premium" className="hover:bg-primary/20 transition">Premium</Link>
+              </li>
+                  <li><Link to="/chats" onClick={(e)=>{ /* optionally handle open chat list */ }}>Messages</Link></li>
+                  <li><a onClick={handleLogout}>Logout</a></li>
+                </ul>
+              </div>
+            </div>
+          )}
+        </nav>
+      </div>
+    </header>
+  )
+}

@@ -12,6 +12,7 @@ import Connections from './components/Connections'
 import Request from './components/Request'
 import Premium from './components/Premium'
 import Chat from './components/Chat'
+import ChatsList from './components/ChatsList'
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
               <Route path="/requests" element={<Request />} />
               <Route path="/premium" element={<Premium />} />
               <Route path="/chat/:id" element={<Chat />} />
+               <Route path="/chats" element={<ChatsList/>} />
             </Route>
           </Routes>
         </BrowserRouter>

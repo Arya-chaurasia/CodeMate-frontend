@@ -1,3 +1,4 @@
+// src/components/EditProfile.jsx
 import React, { useState } from "react";
 import UserCard from "./UserCard";
 import axios from "axios";
@@ -9,19 +10,30 @@ const EditProfile = ({ user }) => {
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastname] = useState(user.lastName);
   const [photoUrl, setPhotoUrl] = useState(user?.photoUrl);
-  const [age, setAge] = useState(user?.age);
-  const [gender, setGender] = useState(user?.gender);
-  const [about, setAbout] = useState(user?.about);
+  const [age, setAge] = useState(user?.age || "");
+  const [gender, setGender] = useState(user?.gender || "");
+  const [about, setAbout] = useState(user?.about || "");
   const [error, setError] = useState();
   const [showToast, setShowToast] = useState(false);
+  const [saving, setSaving] = useState(false);
   const dispatch = useDispatch();
 
   const saveProfile = async () => {
     setError("");
+    setSaving(true);
     try {
+      const payload = {
+        firstName,
+        lastName,
+        about,
+        photoUrl,
+        age: age === "" ? null : Number(age),
+        gender,
+      };
+
       const res = await axios.patch(
-        BASE_URL + "/profile/edit",
-        { firstName, lastName, about, photoUrl, age, gender },
+        `${BASE_URL}/profile/edit`,
+        payload,
         { withCredentials: true }
       );
 
@@ -32,7 +44,9 @@ const EditProfile = ({ user }) => {
       }, 3000);
     } catch (err) {
       console.error(err, "err in saving profile");
-      setError(err.response?.data);
+      setError(err.response?.data?.message || err.response?.data || "Something went wrong");
+    } finally {
+      setSaving(false);
     }
   };
   return (
@@ -66,6 +80,7 @@ const EditProfile = ({ user }) => {
               onChange={(e) => setAge(e.target.value)}
               placeholder="Age"
               className="input input-bordered w-full"
+              min="0"
             />
             <select
               name="gender"
@@ -95,16 +110,21 @@ const EditProfile = ({ user }) => {
               className="textarea textarea-bordered w-full"
             />
             {error && <p className="text-error font-semibold">{error}</p>}
-           <button className="btn btn-primary w-full text-lg hover:bg-primary-focus transition" onClick={saveProfile}>
-              Save Profile
+            <button
+              className="btn btn-primary w-full text-lg hover:bg-primary-focus transition"
+              onClick={saveProfile}
+              disabled={saving}
+            >
+              {saving ? "Saving..." : "Save Profile"}
             </button>
           </div>
         </div>
 
-        {/* Right: UserCard */}
+        {/* Right: UserCard (preview) */}
         <div className="w-full md:w-1/2 flex justify-center">
           <UserCard
             user={{ firstName, lastName, photoUrl, age, gender, about }}
+            showActions={false} // hide action buttons in preview
           />
         </div>
       </div>
