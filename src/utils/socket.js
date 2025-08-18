@@ -6,6 +6,10 @@ export const createSocketConnection = () => {
   if (location.hostname === "localhost") {
     return io(BASE_URL);
   } else {
-    return io("/", { path: "/api/socket.io" });
+    return io("https://codemate-backend-k38x.onrender.com", {
+      withCredentials: true,
+      transports: ["websocket", "polling"],
+       path: "/socket.io"
+    });
   }
 }

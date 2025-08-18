@@ -33,7 +33,7 @@ const UserCard = ({ user = {}, showActions = true }) => {
 
   return (
     <div className="card bg-base-300 w-full max-w-sm shadow-2xl hover:shadow-xl transition-all duration-300 rounded-2xl">
-      <figure className="h-90 overflow-hidden">
+      <figure className="h-70 overflow-hidden">
         <img
           src={imgSrc}
           alt={firstName ? `${firstName} ${lastName}` : "Profile picture"}
